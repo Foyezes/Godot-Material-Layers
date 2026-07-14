@@ -1,3 +1,5 @@
+<img width="1920" height="500" alt="materialLayerHeader3" src="https://github.com/user-attachments/assets/1e0b8d5d-1416-42bb-8ac2-8ece730c47ae" />
+
 # Godot Material Layers
 Material Layers is a Godot plugin that lets you blend materials using a layer based system.
 --- GIF ---
