@@ -75,7 +75,7 @@ Keep in mind, you can still write to the default `ALBEDO`, `ROUGHNESS` and use i
 
 ### <img align="absmiddle" width="20" height="20" alt="maskMaterial_32x32" src="https://github.com/user-attachments/assets/5253218e-fb3f-4aca-ae5e-ff152722733d" /> Writing MaskMaterials
 
-`MaskMaterial` lets you blend materials using your own logic in `.gdshader`. You can control how each material attribute is blended, use height blending, vertex colors, position and normal based etc. You are free to do whatever you want, because it's essentially `gdshader` with some new tokens.
+`MaskMaterial` lets you blend materials using your own logic in `.gdshader`. You can control how each material attribute is blended, use height blending, vertex colors, position and normal based etc. You just have to use the `RESULT_` tokens in order to output the blend results. You are free to do whatever you want, because it's essentially `gdshader` with some new tokens.
 
 ```gdshader
 #include "res://addons/materialLayers/src/layer_lib.gdshaderinc" // Essential for Material Layering
