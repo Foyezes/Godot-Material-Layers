@@ -1,4 +1,4 @@
-[<img target="newtab" src="https://github.com/user-attachments/assets/89491dd0-aa9b-42ca-b2a0-c58ab701ddf4">](https://store.godotengine.org)
+[<img target="_newtab" src="assets/materialLayerHeader3.webp">](https://store.godotengine.org)
 
 Material Layers is a Godot plugin that lets you blend materials using a layer based system.
 --- GIF ---
@@ -9,13 +9,13 @@ Material Layers lets you create what would otherwise be an overly complicated ma
 
 ## How does it work
 Material Layers introduces 4 new resources.
-- <img align="absmiddle" width="20" height="20" alt="layerStack_32x32" src="https://github.com/user-attachments/assets/0c440670-5882-49cd-b9ae-36310021d41e" /> **`LayerStack`**: Contains MaterialLayer resource and generates final material.
-- <img align="absmiddle" width="20" height="20" alt="materialLayer_32x32" src="https://github.com/user-attachments/assets/197ea74f-c1fe-47ee-9e57-f16dc21e5966" />**`MaterialLayer`**: Contains SurfaceMaterial & mask texture or MaskMaterial.
-- <img align="absmiddle" width="20" height="20" alt="surfaceMaterial_32x32" src="https://github.com/user-attachments/assets/cf61462d-f4e5-4abe-bd60-c375aa19f184" />**`SurfaceMaterial`**: Material that's blended using mask texture or `MaskMaterial`. Contains a `.gdshader` template with new layer specific inputs & outputs. You write your own material, then output them using the new output tokens.
-- <img align="absmiddle" width="20" height="20" alt="maskMaterial_32x32" src="https://github.com/user-attachments/assets/5253218e-fb3f-4aca-ae5e-ff152722733d" />**`MaskMaterial`**: Material used to blend `SurfaceMaterial`s. You write your own blending logic such as height blending, vertex colors or sample textures. You control how each material attribute is blended.
+- <img align="absmiddle" width="20" alt="layerStack" src="assets/icons/layerStack.svg"/> **`LayerStack`**: Contains MaterialLayer resource and generates final material.
+- <img align="absmiddle" width="20" alt="materialLayer" src="assets/icons/materialLayer.svg"/>**`MaterialLayer`**: Contains SurfaceMaterial & mask texture or MaskMaterial.
+- <img align="absmiddle" width="20" alt="surfaceMaterial" src="assets/icons/surfaceMaterial.svg"/>**`SurfaceMaterial`**: Material that's blended using mask texture or `MaskMaterial`. Contains a `.gdshader` template with new layer specific inputs & outputs. You write your own material, then output them using the new output tokens.
+- <img align="absmiddle" width="20" alt="maskMaterial" src="assets/icons/maskMaterial.svg"/>**`MaskMaterial`**: Material used to blend `SurfaceMaterial`s. You write your own blending logic such as height blending, vertex colors or sample textures. You control how each material attribute is blended.
 
 ## Quick Start
-### <img align="absmiddle" width="20" height="20" alt="surfaceMaterial_32x32" src="https://github.com/user-attachments/assets/cf61462d-f4e5-4abe-bd60-c375aa19f184" /> Writing SurfaceMaterials
+### <img align="absmiddle" width="20" alt="surfaceMaterial" src="assets/icons/surfaceMaterial.svg"/> Writing SurfaceMaterials
 Create a new `SurfaceMaterial`, you can create it from the file system dock, a material slot or inside a `MaterialLayer`. `SurfaceMaterial` functions the same as a ShaderMaterial, the only difference is it contains a `.gdshader` template for writing Material Layer shaders. You write material shaders in gdshader as usual. But instead of writing to `ALBEDO`, `ROUGHNESS` etc. you write to layer-specific outputs such as `LAYER_OUT_ALBEDO`, `LAYER_OUT_ROUGHNESS`. [See all tokens](#new-tokens)
 
 ```gdshader
@@ -73,7 +73,7 @@ void fragment() {
 
 Keep in mind, you can still write to the default `ALBEDO`, `ROUGHNESS` and use it as a standalone material. It's also needed to generate preview thumbnails.
 
-### <img align="absmiddle" width="20" height="20" alt="maskMaterial_32x32" src="https://github.com/user-attachments/assets/5253218e-fb3f-4aca-ae5e-ff152722733d" /> Writing MaskMaterials
+### <img align="absmiddle" width="20" alt="maskMaterial" src="assets/icons/maskMaterial.svg"/> Writing MaskMaterials
 
 `MaskMaterial` lets you blend materials using your own logic in `.gdshader`. You can control how each material attribute is blended, use height blending, vertex colors, position and normal based etc. You just have to use the `RESULT_` tokens in order to output the blend results. You are free to do whatever you want, because it's essentially `gdshader` with some new tokens.
 
@@ -111,24 +111,27 @@ Both `SurfaceMaterial` and `MaskMaterial` must have the `#include` at the top, a
 ### Blending Two SurfaceMaterials
 Create a new `LayerStack` from the material slot.
 
-<img align="top" width="440" height="auto" alt="layerStack1" src="https://github.com/user-attachments/assets/30d55c98-9597-46c8-a87e-d4d5cf1832ee" />
-<img align="top" width="440" height="auto" alt="layerStack2" src="https://github.com/user-attachments/assets/0757b1dc-a8ac-4d2b-b2a8-a0251a681e3a" />
+<img align="top" width="440" alt="layerStack1" src="assets/layerStack1.webp" />
+<img align="top" width="440" alt="layerStack2" src="assets/layerStack2.webp" />
 
 
 Assign a `SurfaceMaterial` to the `Base Layer` slot.
 
-<img align="top" width="440" height="auto" alt="baseLayer" src="https://github.com/user-attachments/assets/b625859e-e289-4d18-bc72-63dc7db9d982" />
-<img width="1920" height="988" alt="baseLayerMat" src="https://github.com/user-attachments/assets/fca57913-492a-4a3c-95f0-25de59d7036d" />
+<img align="top" width="440" alt="baseLayer" src="assets/baseLayer.webp" />
+<img align ="top" width="1920" alt="baseLayerMat" src="assets/baseLayerMat.webp" />
 
 Then create a new `Material Layer` and assign a different `SurfaceMaterial` to the Surface Material slot.
 
-<img align="top" width="440" height="auto" alt="materialLayer1" src="https://github.com/user-attachments/assets/65c9481b-5040-4b8b-8a58-e3ccc5db117e" />
-<img align="top" width="440" height="auto" alt="materialLayer2" src="https://github.com/user-attachments/assets/5384e47a-187a-493d-a6ab-05332d81234a" />
+<img align="top" width="440" alt="materialLayer1" src="assets/materialLayer1.webp" />
+<img align="top" width="440" alt="materialLayer2" src="assets/materialLayer2.webp" />
 
-You can either use a mask texture or a `MaskMaterial`.
+You can either use a mask texture...
  
-<img width="1668" height="auto" alt="textureMask" src="https://github.com/user-attachments/assets/909b0351-abd8-4288-997a-fa24555d8525" />
-<img width="1920" height="986" alt="maskMaterial" src="https://github.com/user-attachments/assets/f1f03290-d2c0-4feb-b360-3858488fd7f7" />
+<img width="1668" alt="textureMask" src="assets/textureMask.webp" />
+
+or a `MaskMaterial`
+
+<img width="1920" alt="maskMaterial" src="assets/maskMaterial.webp" />
 
 ### New Tokens
 This plugin introduces some new Macros and Tokens used for Material Layering.
