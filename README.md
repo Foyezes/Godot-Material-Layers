@@ -1,11 +1,23 @@
 [<img target="_newtab" src="assets/materialLayerHeader3.webp">](https://store.godotengine.org)
 
-Material Layers is a Godot plugin that lets you blend materials using a layer based system.
---- GIF ---
+## Material Layers is a Godot plugin that lets you blend materials using a layer based system
+
 Unlike traditional materials where you have to blend desired materials in a single shader, Material Layers allows you to easily blend multiple materials in the inspector. This workflow drastically reduces time required to blend multiple materials, allowing for a more iterative and easy to use experience.
+
+<img src="assets/materialLayersRock.webp">
+
 
 ## Why Material Layers
 Material Layers lets you create what would otherwise be an overly complicated material, using smaller and reusable materials. This creates a more manageable system with reduced complexity, more control and flexibility.
+
+## Features
+- Reusable materials
+- Reusable masks
+- Non-destructive
+- Easy iterations
+- Terrain texturing
+- Large scale mesh texturing
+- Procedural variation
 
 ## How does it work
 Material Layers introduces 4 new resources.
