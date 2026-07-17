@@ -4,13 +4,14 @@
 
 Unlike traditional materials where you have to blend desired materials in a single shader, Material Layers allows you to easily blend multiple materials in the inspector. This workflow drastically reduces time required to blend multiple materials, allowing for a more iterative and easy to use experience.
 
-<img src="assets/materialLayersRock.webp">
-
+<img src="assets/doorLayers.webp">
 
 ## Why Material Layers
+
 Material Layers lets you create what would otherwise be an overly complicated material, using smaller and reusable materials. This creates a more manageable system with reduced complexity, more control and flexibility.
 
 ## Features
+
 - Reusable materials
 - Reusable masks
 - Non-destructive
@@ -20,14 +21,18 @@ Material Layers lets you create what would otherwise be an overly complicated ma
 - Procedural variation
 
 ## How does it work
+
 Material Layers introduces 4 new resources.
+
 - <img align="absmiddle" width="20" alt="layerStack" src="assets/icons/layerStack.svg"/> **`LayerStack`**: Contains MaterialLayer resource and generates final material.
 - <img align="absmiddle" width="20" alt="materialLayer" src="assets/icons/materialLayer.svg"/>**`MaterialLayer`**: Contains SurfaceMaterial & mask texture or MaskMaterial.
 - <img align="absmiddle" width="20" alt="surfaceMaterial" src="assets/icons/surfaceMaterial.svg"/>**`SurfaceMaterial`**: Material that's blended using mask texture or `MaskMaterial`. Contains a `.gdshader` template with new layer specific inputs & outputs. You write your own material, then output them using the new output tokens.
 - <img align="absmiddle" width="20" alt="maskMaterial" src="assets/icons/maskMaterial.svg"/>**`MaskMaterial`**: Material used to blend `SurfaceMaterial`s. You write your own blending logic such as height blending, vertex colors or sample textures. You control how each material attribute is blended.
 
 ## Quick Start
+
 ### <img align="absmiddle" width="20" alt="surfaceMaterial" src="assets/icons/surfaceMaterial.svg"/> Writing SurfaceMaterials
+
 Create a new `SurfaceMaterial`, you can create it from the file system dock, a material slot or inside a `MaterialLayer`. `SurfaceMaterial` functions the same as a ShaderMaterial, the only difference is it contains a `.gdshader` template for writing Material Layer shaders. You write material shaders in gdshader as usual. But instead of writing to `ALBEDO`, `ROUGHNESS` etc. you write to layer-specific outputs such as `LAYER_OUT_ALBEDO`, `LAYER_OUT_ROUGHNESS`. [See all tokens](#new-tokens)
 
 ```gdshader
@@ -50,7 +55,7 @@ void fragment() {
 	float roughness = histRange(1.0 - norm_ao_height.a, roughnessRange, roughnessPos);
     roughness = mix(roughness, 1.0 - roughness, float(invertRoughness));
     roughness = saturate(roughness);
-	
+
     vec3 normal = deriveZ(norm_ao_height.r, norm_ao_height.g);
 	float ao = norm_ao_height.b;
 	float height = norm_ao_height.a;
@@ -93,7 +98,7 @@ Keep in mind, you can still write to the default `ALBEDO`, `ROUGHNESS` and use i
 #include "res://addons/materialLayers/src/layer_lib.gdshaderinc" // Essential for Material Layering
 
 void fragment() {
-    
+
     SETUP_LAYER_FRAGMENT; // Sets up Material Layering
 
     //-------------------------------------
@@ -121,11 +126,11 @@ void fragment() {
 Both `SurfaceMaterial` and `MaskMaterial` must have the `#include` at the top, and `SETUP_LAYER_FRAGMENT` at the top of fragment shader and `SETUP_LAYER_VERTEX` at the top of vertex shader.
 
 ### Blending Two SurfaceMaterials
+
 Create a new `LayerStack` from the material slot.
 
 <img align="top" width="440" alt="layerStack1" src="assets/layerStack1.webp" />
 <img align="top" width="440" alt="layerStack2" src="assets/layerStack2.webp" />
-
 
 Assign a `SurfaceMaterial` to the `Base Layer` slot.
 
@@ -138,7 +143,7 @@ Then create a new `Material Layer` and assign a different `SurfaceMaterial` to t
 <img align="top" width="440" alt="materialLayer2" src="assets/materialLayer2.webp" />
 
 You can either use a mask texture...
- 
+
 <img width="1668" alt="textureMask" src="assets/textureMask.webp" />
 
 or a `MaskMaterial`
@@ -146,8 +151,11 @@ or a `MaskMaterial`
 <img width="1920" alt="maskMaterial" src="assets/maskMaterial.webp" />
 
 ### New Tokens
+
 This plugin introduces some new Macros and Tokens used for Material Layering.
+
 #### SurfaceMaterial Tokens
+
 Surface Map Tokens
 
 | `LAYER_OUT`                    | `LAYER_BELOW`                     |
@@ -171,8 +179,8 @@ Mesh Map Tokens
 | `LAYER_OUT_MESH_CURVATURE`  | `LAYER_BELOW_MESH_CURVATURE`  |
 | `LAYER_OUT_MESH_THICKNESS`  | `LAYER_BELOW_MESH_THICKNESS`  |
 
-
 #### MaskMaterial Tokens
+
 Surface Map Tokens
 
 | `LAYER_CURRENT`                     | `LAYER_BELOW`                     | `RESULT`                   |
@@ -186,18 +194,19 @@ Surface Map Tokens
 | `LAYER_CURRENT_METALLIC`            | `LAYER_BELOW_METALLIC`            | `RESULT_METALLIC`          |
 | `LAYER_CURRENT_EMISSION`            | `LAYER_BELOW_EMISSION`            | `RESULT_EMISSION`          |
 |                                     |                                   |                            |
+
 #### Texture and Mask Tokens
+
 You can assign textures to the TEX tokens and masks to the MASK tokens.
 These are meant to be used for passing arbitrary texture data such as noise and masks.
 
-| Output textures   | Get below layer's texture | Output masks       | Get below layer's masks  |
-| ----------------- | ------------------------- | ------------------ | ------------------------ |
-| `LAYER_OUT_TEX_0` | `LAYER_BELOW_TEX_0`       | `LAYER_OUT_MASK_0` | `LAYER_BELOW_MASK_0`     |
-| `LAYER_OUT_TEX_1` | `LAYER_BELOW_TEX_1`       | `LAYER_OUT_MASK_1` | `LAYER_BELOW_MASK_1` |
-| `LAYER_OUT_TEX_2` | `LAYER_BELOW_TEX_2`       | `LAYER_OUT_MASK_2` | `LAYER_BELOW_MASK_2` |
-| `LAYER_OUT_TEX_3` | `LAYER_BELOW_TEX_3`       | `LAYER_OUT_MASK_3` | `LAYER_BELOW_MASK_3` |
-| `LAYER_OUT_TEX_4`  | `LAYER_BELOW_TEX_4`       | `LAYER_OUT_MASK_4` | `LAYER_BELOW_MASK_4` |
-| `LAYER_OUT_TEX_5`  | `LAYER_BELOW_TEX_5`       | `LAYER_OUT_MASK_5` | `LAYER_BELOW_MASK_5` |
-| `LAYER_OUT_TEX_6` | `LAYER_BELOW_TEX_6`       | `LAYER_OUT_MASK_6` | `LAYER_BELOW_MASK_6` |
-| `LAYER_OUT_TEX_7` | `LAYER_BELOW_TEX_7`       | `LAYER_OUT_MASK_7` | `LAYER_BELOW_MASK_7`> |
-
+| Output textures   | Get below layer's texture | Output masks       | Get below layer's masks |
+| ----------------- | ------------------------- | ------------------ | ----------------------- |
+| `LAYER_OUT_TEX_0` | `LAYER_BELOW_TEX_0`       | `LAYER_OUT_MASK_0` | `LAYER_BELOW_MASK_0`    |
+| `LAYER_OUT_TEX_1` | `LAYER_BELOW_TEX_1`       | `LAYER_OUT_MASK_1` | `LAYER_BELOW_MASK_1`    |
+| `LAYER_OUT_TEX_2` | `LAYER_BELOW_TEX_2`       | `LAYER_OUT_MASK_2` | `LAYER_BELOW_MASK_2`    |
+| `LAYER_OUT_TEX_3` | `LAYER_BELOW_TEX_3`       | `LAYER_OUT_MASK_3` | `LAYER_BELOW_MASK_3`    |
+| `LAYER_OUT_TEX_4` | `LAYER_BELOW_TEX_4`       | `LAYER_OUT_MASK_4` | `LAYER_BELOW_MASK_4`    |
+| `LAYER_OUT_TEX_5` | `LAYER_BELOW_TEX_5`       | `LAYER_OUT_MASK_5` | `LAYER_BELOW_MASK_5`    |
+| `LAYER_OUT_TEX_6` | `LAYER_BELOW_TEX_6`       | `LAYER_OUT_MASK_6` | `LAYER_BELOW_MASK_6`    |
+| `LAYER_OUT_TEX_7` | `LAYER_BELOW_TEX_7`       | `LAYER_OUT_MASK_7` | `LAYER_BELOW_MASK_7`>   |
