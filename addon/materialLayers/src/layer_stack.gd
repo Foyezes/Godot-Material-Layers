@@ -396,11 +396,11 @@ func _on_mask_updated() -> void:
 
 func _on_uniform_changed() -> void:
 	_invalidate_assets()
-	if layer_uniform_maps.is_empty():
-		# compile()
-		print("")
-	else:
-		update_uniforms(_ensure_assets())
+	# if layer_uniform_maps.is_empty():
+	# 	# compile()
+	# 	print("")
+	# else:
+	update_uniforms(_ensure_assets())
 
 
 func clear_uniforms() -> void:
@@ -937,8 +937,8 @@ func parse_vertex(body: String, index: int) -> Dictionary:
 		if s.type == "statement" and "SETUP_LAYER_VERTEX" in s.text:
 			has_setup = true
 			break
-	if not has_setup:
-		push_error("Layer_%d ERROR ! Vertex Shader : missing SETUP_LAYER_VERTEX" % index)
+	# if not has_setup:
+	# 	push_error("Layer_%d ERROR ! Vertex Shader : missing SETUP_LAYER_VERTEX" % index)
 
 	######### MACROS
 
