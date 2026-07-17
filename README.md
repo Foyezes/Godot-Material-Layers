@@ -24,14 +24,14 @@ Material Layers lets you create what would otherwise be an overly complicated ma
 
 Material Layers introduces 4 new resources.
 
-- <img align="absmiddle" width="20" alt="layerStack" src="assets/icons/layerStack.svg"/> **`LayerStack`**: Contains MaterialLayer resource and generates final material.
-- <img align="absmiddle" width="20" alt="materialLayer" src="assets/icons/materialLayer.svg"/>**`MaterialLayer`**: Contains SurfaceMaterial & mask texture or MaskMaterial.
-- <img align="absmiddle" width="20" alt="surfaceMaterial" src="assets/icons/surfaceMaterial.svg"/>**`SurfaceMaterial`**: Material that's blended using mask texture or `MaskMaterial`. Contains a `.gdshader` template with new layer specific inputs & outputs. You write your own material, then output them using the new output tokens.
-- <img align="absmiddle" width="20" alt="maskMaterial" src="assets/icons/maskMaterial.svg"/>**`MaskMaterial`**: Material used to blend `SurfaceMaterial`s. You write your own blending logic such as height blending, vertex colors or sample textures. You control how each material attribute is blended.
+- <img align="absmiddle" width="20" alt="layerStack" src="addon/materialLayers/icons/layerStack.svg"/> **`LayerStack`**: Contains MaterialLayer resource and generates final material.
+- <img align="absmiddle" width="20" alt="materialLayer" src="addon/materialLayers/icons/materialLayer.svg"/>**`MaterialLayer`**: Contains SurfaceMaterial & mask texture or MaskMaterial.
+- <img align="absmiddle" width="20" alt="surfaceMaterial" src="addon/materialLayers/icons/surfaceMaterial.svg"/>**`SurfaceMaterial`**: Material that's blended using mask texture or `MaskMaterial`. Contains a `.gdshader` template with new layer specific inputs & outputs. You write your own material, then output them using the new output tokens.
+- <img align="absmiddle" width="20" alt="maskMaterial" src="addon/materialLayers/icons/maskMaterial.svg"/>**`MaskMaterial`**: Material used to blend `SurfaceMaterial`s. You write your own blending logic such as height blending, vertex colors or sample textures. You control how each material attribute is blended.
 
 ## Quick Start
 
-### <img align="absmiddle" width="20" alt="surfaceMaterial" src="assets/icons/surfaceMaterial.svg"/> Writing SurfaceMaterials
+### <img align="absmiddle" width="20" alt="surfaceMaterial" src="addon/materialLayers/icons/surfaceMaterial.svg"/> Writing SurfaceMaterials
 
 Create a new `SurfaceMaterial`, you can create it from the file system dock, a material slot or inside a `MaterialLayer`. `SurfaceMaterial` functions the same as a ShaderMaterial, the only difference is it contains a `.gdshader` template for writing Material Layer shaders. You write material shaders in gdshader as usual. But instead of writing to `ALBEDO`, `ROUGHNESS` etc. you write to layer-specific outputs such as `LAYER_OUT_ALBEDO`, `LAYER_OUT_ROUGHNESS`. [See all tokens](#new-tokens)
 
@@ -90,7 +90,7 @@ void fragment() {
 
 Keep in mind, you can still write to the default `ALBEDO`, `ROUGHNESS` and use it as a standalone material. It's also needed to generate preview thumbnails.
 
-### <img align="absmiddle" width="20" alt="maskMaterial" src="assets/icons/maskMaterial.svg"/> Writing MaskMaterials
+### <img align="absmiddle" width="20" alt="maskMaterial" src="addon/materialLayers/icons/maskMaterial.svg"/> Writing MaskMaterials
 
 `MaskMaterial` lets you blend materials using your own logic in `.gdshader`. You can control how each material attribute is blended, use height blending, vertex colors, position and normal based etc. You just have to use the `RESULT_` tokens in order to output the blend results. You are free to do whatever you want, because it's essentially `gdshader` with some new tokens.
 
