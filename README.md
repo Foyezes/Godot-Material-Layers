@@ -1,8 +1,14 @@
 [<img target="_newtab" src="assets/materialLayerHeader3.webp">](https://store.godotengine.org)
 
+## Download
+
+Available in the [Godot Asset Store](https://store.godotengine.org/asset/foyezes/material-layers/) in editor. See all [releases](https://github.com/Foyezes/Godot-Material-Layers/releases).
+
 ## Material Layers is a Godot plugin that lets you blend materials using a layer based system
 
 Unlike traditional materials where you have to blend desired materials in a single shader, Material Layers allows you to easily blend multiple materials in the inspector. This workflow drastically reduces time required to blend multiple materials, allowing for a more iterative and easy to use experience.
+
+
 
 <img src="assets/doorLayers.webp">
 
