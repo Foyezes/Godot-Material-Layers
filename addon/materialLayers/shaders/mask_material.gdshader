@@ -1,6 +1,6 @@
 shader_type spatial;
 
-#include "res://addons/materialLayers/src/layer_lib.gdshaderinc"
+#include "res://addons/materialLayers/shaders/layer_lib.gdshaderinc"
 
 
 void vertex() {

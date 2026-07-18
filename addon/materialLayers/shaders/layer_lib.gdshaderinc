@@ -1,6 +1,3 @@
-#define CUSTOM_MACRO \
-vec3 custom_something \
-
 #define SETUP_LAYER_FRAGMENT \
 vec3    LAYER_BELOW_ALBEDO = vec3(0.8); \
 vec3    LAYER_BELOW_NORMAL_MAP = vec3(0.5, 0.5, 1.0); \

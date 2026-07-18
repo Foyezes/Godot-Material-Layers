@@ -20,4 +20,4 @@ func _parse_begin(object: Object) -> void:
         stack.update()
     )
     add_custom_control(compile_btn)
-    add_custom_control(update_uniforms_btn)
+    # add_custom_control(update_uniforms_btn)

@@ -5,7 +5,7 @@
 class_name MaskMaterial
 extends ShaderMaterial
 
-const DEFAULT_SHADER_PATH := "res://addons/materialLayers/src/mask_material.gdshader"
+const DEFAULT_SHADER_PATH := "res://addons/materialLayers/shaders/mask_material.gdshader"
 
 func _init() -> void:
 	if not shader:

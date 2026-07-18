@@ -9,7 +9,7 @@ extends ShaderMaterial
 	set(val):
 		use_as_overlay = val
 
-const DEFAULT_SHADER_PATH := "res://addons/materialLayers/src/surface_material.gdshader"
+const DEFAULT_SHADER_PATH := "res://addons/materialLayers/shaders/surface_material.gdshader"
 
 func _init() -> void:
 	if not shader:

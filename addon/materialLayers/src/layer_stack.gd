@@ -9,6 +9,8 @@ func _init() -> void:
 	resource_name = "layer_stack"
 
 var _base_layer_initialized := false
+var _layers_initialized := false
+var _compiled := false
 
 ## [img width=32]res://addons/layerForge/icons/surfaceMaterial.svg[/img]
 ## Base material. Use SurfaceMaterial
@@ -413,10 +415,11 @@ func clear_uniforms() -> void:
 
 
 func update_uniforms(assets: Array) -> void:
+	if layer_uniform_maps.is_empty():
+		return
 	clear_uniforms()
-	if layer_uniform_maps.size() > 0:
-		copy_uniform_values(self, layer_uniform_maps)
-		set_mask_uniforms(assets)
+	copy_uniform_values(self, layer_uniform_maps)
+	set_mask_uniforms(assets)
 
 
 func strip_comments(shader: String) -> String:
