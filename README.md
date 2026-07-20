@@ -8,8 +8,6 @@ Available in the [Godot Asset Store](https://store.godotengine.org/asset/foyezes
 
 Unlike traditional materials where you have to blend desired materials in a single shader, Material Layers allows you to easily blend multiple materials in the inspector. This workflow drastically reduces time required to blend multiple materials, allowing for a more iterative and easy to use experience.
 
-
-
 <img src="assets/doorLayers.webp">
 
 ## Why Material Layers
@@ -216,3 +214,7 @@ These are meant to be used for passing arbitrary texture data such as noise and 
 | `LAYER_OUT_TEX_5` | `LAYER_BELOW_TEX_5`       | `LAYER_OUT_MASK_5` | `LAYER_BELOW_MASK_5`    |
 | `LAYER_OUT_TEX_6` | `LAYER_BELOW_TEX_6`       | `LAYER_OUT_MASK_6` | `LAYER_BELOW_MASK_6`    |
 | `LAYER_OUT_TEX_7` | `LAYER_BELOW_TEX_7`       | `LAYER_OUT_MASK_7` | `LAYER_BELOW_MASK_7`>   |
+
+## "Support the project"
+
+If you like the tool, you can support development by [donating](https://foyezes.gumroad.com/l/donate), joining my [patreon](https://www.patreon.com/c/Foyezes) or buying assets from my [store](https://foyezes.gumroad.com). You support directly funds more tutorials, resources and improvements to the tool.
