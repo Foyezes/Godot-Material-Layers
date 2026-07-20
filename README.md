@@ -215,6 +215,6 @@ These are meant to be used for passing arbitrary texture data such as noise and 
 | `LAYER_OUT_TEX_6` | `LAYER_BELOW_TEX_6`       | `LAYER_OUT_MASK_6` | `LAYER_BELOW_MASK_6`    |
 | `LAYER_OUT_TEX_7` | `LAYER_BELOW_TEX_7`       | `LAYER_OUT_MASK_7` | `LAYER_BELOW_MASK_7`>   |
 
-## "Support the project"
+## Support the project
 
 If you like the tool, you can support development by [donating](https://foyezes.gumroad.com/l/donate), joining my [patreon](https://www.patreon.com/c/Foyezes) or buying assets from my [store](https://foyezes.gumroad.com). You support directly funds more tutorials, resources and improvements to the tool.
