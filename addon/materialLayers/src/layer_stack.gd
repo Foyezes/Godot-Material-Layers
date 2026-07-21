@@ -1369,6 +1369,9 @@ func set_mask_uniforms(assets: Array):
 			self.set_shader_parameter(channel_param, asset["mask_texture_channel"])
 
 
+
+
+
 func _collect_layer_assets() -> Array:
 	var assets: Array = []
 
@@ -1648,6 +1651,9 @@ func _generate_code(assets: Array) -> String:
 	return "".join(mega_shader)
 
 
+var shader_params := []
+
+
 func compile() -> void:
 	for layer in layers:
 		if layer:
@@ -1692,14 +1698,9 @@ func compile() -> void:
 
 	copy_uniform_values(self, layer_uniform_maps)
 	set_mask_uniforms(assets)
-	# notify_property_list_changed()
+
 
 func update() -> void:
 	update_uniforms(_ensure_assets())
 
-# func _validate_property(property: Dictionary) -> void:
-# 	if property.name == "shader":
-# 		property.usage = PROPERTY_USAGE_NONE
-	
-# 	if property.name.begins_with("shader_parameter/layer_"):
-# 		property.usage = property.usage | PROPERTY_USAGE_READ_ONLY
+
