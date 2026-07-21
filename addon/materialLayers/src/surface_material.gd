@@ -1,5 +1,5 @@
 ## Material that's blended using mask texture or [code]MaskMaterial[/code].
-## [url=https://www.foyez.es/docs/layerforge]Learn more[/url]
+## [url=https://www.foyez.es/docs/material-layers]Learn more[/url]
 @icon ("res://addons/materialLayers/icons/surfaceMaterial.svg")
 @tool
 class_name SurfaceMaterial

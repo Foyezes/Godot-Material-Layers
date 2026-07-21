@@ -1,5 +1,5 @@
 ## Contains [code]SurfaceMaterial[/code] & mask texture or [code]MaskMaterial[/code].
-## [url=https://www.foyez.es/docs/layerforge]Learn more[/url]
+## [url=https://www.foyez.es/docs/material-layers]Learn more[/url]
 @icon ("res://addons/materialLayers/icons/materialLayer.svg")
 @tool
 class_name MaterialLayer
@@ -44,7 +44,7 @@ enum MaskType { TEXTURE, MATERIAL }
 		emit_changed()
 		notify_property_list_changed()
 
-@export var mask_type: MaskType = MaskType.TEXTURE:
+@export var mask_type: MaskType = MaskType.MATERIAL:
 	set(val):
 		mask_type = val
 		emit_changed()

@@ -1,5 +1,5 @@
 ## Contains [code]MaterialLayer[/code] resource and generates final material.
-## [url=https://www.foyez.es/docs/layerforge]Learn more[/url]
+## [url=https://www.foyez.es/docs/material-layers]Learn more[/url]
 @icon ("res://addons/materialLayers/icons/layerStack.svg")
 @tool
 class_name LayerStack
@@ -13,23 +13,20 @@ var _base_layer_initialized := false
 var _layers_initialized := false
 var _compiled := false
 
-## [img width=32]res://addons/layerForge/icons/surfaceMaterial.svg[/img]
-## Base material. Use SurfaceMaterial
-@export var base_layer: ShaderMaterial:
+## [img width=32]res://addons/materialLayers/icons/surfaceMaterial.svg[/img]
+## Base layer
+@export var base_layer: SurfaceMaterial:
 	set(val):
-		if val is MaskMaterial or val is LayerStack:
-			return
+		if val:
+			val = val.duplicate()
 		if base_layer and base_layer.changed.is_connected(_on_uniform_changed):
 			base_layer.changed.disconnect(_on_uniform_changed)
 		base_layer = val
 		if base_layer and not base_layer.changed.is_connected(_on_uniform_changed):
 			base_layer.changed.connect(_on_uniform_changed)
 		_invalidate_assets()
-		# if _base_layer_initialized:
-			# compile()
 		_base_layer_initialized = true
 		emit_changed()
-		# compile()
 
 
 @export var layers: Array[MaterialLayer] = []:
@@ -56,7 +53,6 @@ var _compiled := false
 
 var layer_uniform_maps: Array = []
 var _assets: Array = []
-var debug_message: String = ""
 
 func _ensure_assets() -> Array:
 	if _assets.is_empty():
@@ -359,7 +355,6 @@ func _get_layer_data_below_regex() -> Dictionary:
 func _on_layer_changed() -> void:
 	_invalidate_assets()
 	_reconnect_layer_signals()
-	# compile()
 
 
 func _reconnect_layer_signals() -> void:
@@ -388,7 +383,6 @@ func _reconnect_layer_signals() -> void:
 func _on_material_replaced() -> void:
 	_invalidate_assets()
 	_reconnect_layer_signals()
-	# compile()
 
 
 func _on_mask_updated() -> void:
@@ -399,10 +393,6 @@ func _on_mask_updated() -> void:
 
 func _on_uniform_changed() -> void:
 	_invalidate_assets()
-	# if layer_uniform_maps.is_empty():
-	# 	# compile()
-	# 	print("")
-	# else:
 	update_uniforms(_ensure_assets())
 
 
@@ -709,8 +699,6 @@ func blend_vertex_block(vertex: String, mask: String, index: int, mask_type: int
 
 	if index == 0:
 		result += "\n\n\t" + "vertexMaterial finalVertex = vertex_0_out;\n"
-	# elif mask_active and mask_type == MaterialLayer.MaskType.TEXTURE:
-	# 	result += "\n\n\t" + "finalVertex = l_mixVertex(finalVertex, " + current_layer + ", " + mask + ");\n"
 
 	return result
 
@@ -1219,7 +1207,6 @@ func parse_helper_funcs(shader: String, is_mask: bool, index: int) -> Dictionary
 	var identifiers := []
 	var n := shader.length()
 
-	# Pass 1: find every helper function signature + body, collect names
 	for m in sig.search_all(shader):
 		var func_name := m.get_string(1)
 		if func_name in skip_names:
@@ -1244,7 +1231,6 @@ func parse_helper_funcs(shader: String, is_mask: bool, index: int) -> Dictionary
 		raw_functions.append(return_type + " " + func_name + "(" + params + ") {" + body + "}")
 		identifiers.append(func_name)
 
-	# Pass 2: prefix every identifier everywhere it appears, in every function's text
 	var prefix := "s_layer_%d_" % index
 	if is_mask:
 		prefix = "m_layer_%d_" % index
@@ -1438,8 +1424,6 @@ func _generate_code(assets: Array) -> String:
 
 	layer_uniform_maps.clear()
 	
-	#ANCHOR Mask parsing
-
 	for asset in assets:
 		var slot: int = asset["slot"]
 		var mask_type: int = asset["mask_type"]
@@ -1533,7 +1517,6 @@ func _generate_code(assets: Array) -> String:
 		var surface_vertex := get_vertex(surface_c)
 		var surface_parsed_vertex := parse_vertex(surface_vertex, slot)
 		var surface_vertex_body: String = surface_parsed_vertex["vertex"]
-		# print(surface_vertex_body)
 
 		layer_uniform_maps.append({
 			"surface_material": asset["surface_mat"],
@@ -1605,10 +1588,6 @@ func _generate_code(assets: Array) -> String:
 		all_vertex_funcs.append(mask_vertex_body)
 		if not mask_active:
 			all_vertex_funcs.append("\tfinalVertex = vertex_%d_out;" % slot)
-		# if mask_active:
-		# 	debug_message += "Layer_%d Mask Enabled\n" % slot
-		# else:
-		# 	debug_message += "Layer_%d Mask Disabled\n" % slot
 		all_vertex_funcs.append("\n")
 	
 
@@ -1619,7 +1598,6 @@ func _generate_code(assets: Array) -> String:
 	all_fragment_funcs = prefix_vertex_fragment_samplers(all_fragment_funcs, deduped_samplers["originals"], deduped_samplers["renames"])
 	all_vertex_funcs = prefix_vertex_fragment_samplers(all_vertex_funcs, deduped_samplers["originals"], deduped_samplers["renames"])
 	all_helper_funcs = prefix_vertex_fragment_samplers(all_helper_funcs, deduped_samplers["originals"], deduped_samplers["renames"])
-	print(debug_message)
 	mega_shader.append("shader_type spatial;")
 	mega_shader.append("\n\n")
 	mega_shader.append("\n".join(all_includes))
@@ -1709,7 +1687,6 @@ func compile() -> void:
 	for layer in layers:
 		if layer:
 			layer.resource_name = layer.label
-	debug_message = ""
 
 	_fragment_layer_out_regex.clear()
 	_fragment_layer_below_regex.clear()
@@ -1724,23 +1701,20 @@ func compile() -> void:
 	layer_uniform_maps.clear()
 	var assets := _ensure_assets()
 	var code := _generate_code(assets)
-	# debug_message = "Generated LayerStack"
+	print_rich("Generated " + "[color=#75ff13]LayerStack")
 
-	var sh := Shader.new()
+	var sh: Shader
+	if self.shader != null and self.shader is Shader:
+		sh = self.shader
+	else:
+		sh = Shader.new()
 	sh.code = code
+	sh.emit_changed()
 
-	var save_path := ""
-	if self.shader != null and self.shader.resource_path != "":
-		save_path = self.shader.resource_path
-
-	self.shader = null
-
-	if save_path != "":
-		sh.resource_path = save_path
-		sh.take_over_path(save_path)
-		ResourceSaver.save(sh, save_path)
-	
-	self.shader = sh
+	if sh.resource_path != "":
+		ResourceSaver.save(sh, sh.resource_path)
+	elif self.shader == null:
+		self.shader = sh
 
 	for prop in get_property_list():
 		if prop.name.begins_with("shader_parameter/"):
