@@ -7,6 +7,7 @@ extends ShaderMaterial
 
 func _init() -> void:
 	resource_name = "layer_stack"
+	call_deferred("_auto_compile_on_load")
 
 var _base_layer_initialized := false
 var _layers_initialized := false
@@ -1651,7 +1652,57 @@ func _generate_code(assets: Array) -> String:
 	return "".join(mega_shader)
 
 
-var shader_params := []
+
+
+func _auto_compile_on_load() -> void:
+	if shader and not layers.is_empty():
+		_rebuild_uniform_maps()
+		ensure_assets_and_update()
+
+
+func _rebuild_uniform_maps() -> void:
+	var assets := _ensure_assets()
+	layer_uniform_maps.clear()
+
+	for asset in assets:
+		var slot: int = asset["slot"]
+		var mask_type: int = asset["mask_type"]
+		var mask_active: bool = asset["mask_active"]
+
+		var mask_shader: Shader = asset["mask_shader"]
+
+		if mask_type == MaterialLayer.MaskType.MATERIAL and mask_active and mask_shader:
+			var mask_c := strip_comments(mask_shader.code)
+			var mask_uniforms = parse_uniforms(mask_c, true, slot)
+
+			layer_uniform_maps.append({
+				"mask_material": asset["mask_mat"],
+				"identifiers": mask_uniforms["uniform_identifiers"],
+				"sampler_identifiers": mask_uniforms["sampler_identifiers"],
+				"sampler_uniforms": mask_uniforms["samplers"],
+				"index": slot,
+				"is_mask": true,
+			})
+
+		var surface_shader: Shader = asset["surface_shader"]
+		if surface_shader == null:
+			continue
+
+		var surface_c := strip_comments(surface_shader.code)
+		var surface_uniforms := parse_uniforms(surface_c, false, slot)
+
+		layer_uniform_maps.append({
+			"surface_material": asset["surface_mat"],
+			"identifiers": surface_uniforms["uniform_identifiers"],
+			"sampler_identifiers": surface_uniforms["sampler_identifiers"],
+			"sampler_uniforms": surface_uniforms["samplers"],
+			"index": slot,
+			"is_mask": false,
+		})
+
+
+func ensure_assets_and_update() -> void:
+	update_uniforms(_ensure_assets())
 
 
 func compile() -> void:
