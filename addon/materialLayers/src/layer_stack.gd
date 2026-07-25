@@ -239,6 +239,25 @@ const LAYER_DATA_BELOW_FIELDS := {
 	"LAYER_BELOW_MASK_6": "mat_layer_mask_6",
 	"LAYER_BELOW_MASK_7": "mat_layer_mask_7",
 }
+const LAYER_DATA_CURRENT_FIELDS := {
+	"LAYER_CURRENT_TEX_0": "mat_layer_tex_0",
+	"LAYER_CURRENT_TEX_1": "mat_layer_tex_1",
+	"LAYER_CURRENT_TEX_2": "mat_layer_tex_2",
+	"LAYER_CURRENT_TEX_3": "mat_layer_tex_3",
+	"LAYER_CURRENT_TEX_4": "mat_layer_tex_4",
+	"LAYER_CURRENT_TEX_5": "mat_layer_tex_5",
+	"LAYER_CURRENT_TEX_6": "mat_layer_tex_6",
+	"LAYER_CURRENT_TEX_7": "mat_layer_tex_7",
+
+	"LAYER_CURRENT_MASK_0": "mat_layer_mask_0",
+	"LAYER_CURRENT_MASK_1": "mat_layer_mask_1",
+	"LAYER_CURRENT_MASK_2": "mat_layer_mask_2",
+	"LAYER_CURRENT_MASK_3": "mat_layer_mask_3",
+	"LAYER_CURRENT_MASK_4": "mat_layer_mask_4",
+	"LAYER_CURRENT_MASK_5": "mat_layer_mask_5",
+	"LAYER_CURRENT_MASK_6": "mat_layer_mask_6",
+	"LAYER_CURRENT_MASK_7": "mat_layer_mask_7",
+}
 
 var _fragment_layer_out_regex: Dictionary = {}
 var _fragment_layer_below_regex: Dictionary = {}
@@ -251,6 +270,7 @@ var _vertex_layer_result_regex: Dictionary = {}
 
 var _layer_data_out_regex: Dictionary = {}
 var _layer_data_below_regex: Dictionary = {}
+var _layer_data_current_regex: Dictionary = {}
 
 func _get_fragment_layer_out_regex() -> Dictionary:
 	if _fragment_layer_out_regex.is_empty():
@@ -350,6 +370,16 @@ func _get_layer_data_below_regex() -> Dictionary:
 			_layer_data_below_regex[in_name] = rx
 	
 	return _layer_data_below_regex
+
+
+func _get_layer_data_current_regex() -> Dictionary:
+	if _layer_data_current_regex.is_empty():
+		for in_name in LAYER_DATA_CURRENT_FIELDS:
+			var rx := RegEx.new()
+			rx.compile("\\b" + in_name + "\\b")
+			_layer_data_current_regex[in_name] = rx
+	
+	return _layer_data_current_regex
 
 
 func _on_layer_changed() -> void:
@@ -831,8 +861,8 @@ func parse_fragment(body: String, index: int) -> Dictionary:
 	
 
 	var mask_out := get_mask_out(statements, index)
-	statements = parse_fragment_in_out(statements, index)
 	statements = parse_layer_data_in_out(statements, index)
+	statements = parse_fragment_in_out(statements, index)
 
 	for s in statements:
 		match s.type:
@@ -948,8 +978,8 @@ func parse_vertex(body: String, index: int) -> Dictionary:
 	
 	
 
-	statements = parse_vertex_in_out(statements, index)
 	statements = parse_layer_data_in_out(statements, index)
+	statements = parse_vertex_in_out(statements, index)
 
 	for s in statements:
 		match s.type:
@@ -1116,9 +1146,11 @@ func parse_layer_data_in_out(statements: Array, index: int):
 	var result := []
 	var out_struct_name := "layer_%d_data" % index
 	var below_struct_name := "finalLayerData"
+	var current_struct_name := "finalLayerData"
 
 	var out_regex_map := _get_layer_data_out_regex()
 	var below_regex_map := _get_layer_data_below_regex()
+	var current_regex_map := _get_layer_data_current_regex()
 
 	for s in statements:
 		if s.type != "statement":
@@ -1129,11 +1161,10 @@ func parse_layer_data_in_out(statements: Array, index: int):
 			s.text = out_regex_map[out_name].sub(s.text,"%s.%s" % [out_struct_name, LAYER_DATA_OUT_FIELDS[out_name]], true)
 
 		for in_name in below_regex_map:
-			s.text = below_regex_map[in_name].sub(
-				s.text,
-				"%s.%s" % [below_struct_name, LAYER_DATA_BELOW_FIELDS[in_name]],
-				true
-			)
+			s.text = below_regex_map[in_name].sub(s.text,"%s.%s" % [below_struct_name, LAYER_DATA_BELOW_FIELDS[in_name]], true)
+		
+		for in_name in current_regex_map:
+			s.text = current_regex_map[in_name].sub(s.text,"%s.%s" % [current_struct_name, LAYER_DATA_CURRENT_FIELDS[in_name]], true)
 
 		result.append(s)
 	
@@ -1180,20 +1211,15 @@ func prefix_vertex_samplers(all_vertex_funcs: Array, originals: Array, renames: 
 	return result
 
 
-func prefix_helper_funcs(functions: Array, identifiers: Array, is_mask: bool, index: int) -> Array:
+func prefix_helper_funcs(body: String, identifiers: Array, is_mask: bool, index: int) -> String:
 	var prefix := "s_layer_%d_" % index
 	if is_mask:
 		prefix = "m_layer_%d_" % index
-	var result := []
-	var body := ""
-
-	for fn in functions:
-		body = fn
-
-		for identifier in identifiers:
-			var regex := RegEx.new()
-			regex.compile("\\b" + identifier + "\\b")
-			result.append(regex.sub(body, prefix + identifier, true))
+	var result := body
+	for identifier in identifiers:
+		var regex := RegEx.new()
+		regex.compile("\\b" + identifier + "\\b")
+		result = regex.sub(result, prefix + identifier, true)
 	return result
 
 
@@ -1495,6 +1521,7 @@ func _generate_code(assets: Array) -> String:
 				"is_mask": true,
 			})
 
+			mask_fragment_body = prefix_helper_funcs(mask_fragment_body, mask_helper_funcs["identifiers"], true, slot)
 			mask_fragment_body = prefix_vertex_fragment(mask_fragment_body, all_identifiers, true, slot)
 			mask_vertex_body = prefix_vertex_fragment(mask_vertex_body, vertex_identifiers, true, slot)
 
@@ -1508,7 +1535,7 @@ func _generate_code(assets: Array) -> String:
 
 		var parsed_varyings := parse_varyings(surface_c, slot)
 
-		var surface_helper_funcs := parse_helper_funcs(surface_c, true, slot)
+		var surface_helper_funcs := parse_helper_funcs(surface_c, false, slot)
 		
 		var surface_fragment := get_fragment(surface_c)
 		var surface_parsed_fragment := parse_fragment(surface_fragment, slot)
@@ -1563,6 +1590,7 @@ func _generate_code(assets: Array) -> String:
 		vertex_identifiers.append_array(surface_helper_funcs["identifiers"])
 		vertex_identifiers.append_array(surface_parsed_vertex["identifiers"])
 
+		surface_fragment_body = prefix_helper_funcs(surface_fragment_body, surface_helper_funcs["identifiers"], false, slot)
 		surface_fragment_body = prefix_vertex_fragment(surface_fragment_body, all_identifiers, false, slot)
 		surface_fragment_body = blend_layer_data_block(surface_fragment_body,slot)
 		surface_fragment_body = blend_fragment_block(surface_fragment_body, mask_expr, slot, mask_type, mask_active)
@@ -1570,9 +1598,14 @@ func _generate_code(assets: Array) -> String:
 		all_fragment_funcs.append(layer_data_out(slot))
 		all_fragment_funcs.append(fragment_layer_out(slot))
 		all_fragment_funcs.append(surface_fragment_body)
+		all_fragment_funcs.append("\tfinalLayerData = layer_%d_data;" % slot)
+		all_fragment_funcs.append("\n")
+		if mask_active:
+			all_fragment_funcs.append("\tfinalFragment = fragment_%d_out;" % slot)
 		all_fragment_funcs.append("\n")
 		all_fragment_funcs.append(mask_fragment_body)
-		all_fragment_funcs.append("\tfinalLayerData = layer_%d_data;" % slot)
+		if mask_active:
+			all_fragment_funcs.append("\tfinalLayerData = layer_%d_data;" % slot)
 		all_fragment_funcs.append("\n\n")
 
 		if not mask_active:
