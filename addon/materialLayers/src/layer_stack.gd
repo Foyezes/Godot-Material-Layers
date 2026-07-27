@@ -66,25 +66,25 @@ const TYPES := ["float", "int", "bool", "bvec2", "bvec3", "bvec4", "ivec2", "ive
 const OUTPUTS := ["VERTEX", "ALBEDO", "NORMAL_MAP", "NORMAL_MAP_DEPTH", "ROUGHNESS", "AO", "AO_LIGHT_AFFECT", "EMISSION", "BENT_NORMAL", "METALLIC", "SPECULAR", "RIM", "RIM_TINT", "CLEARCOAT", "CLEARCOAT_GLOSS", "ANISOTROPY", "ANISOTROPY_FLOW", "SSS_STRENGTH", "SSS_TRANSMITTANCE_COLOR", "SSS_TRANSMITTANCE_DEPTH", "BACKLIGHT", "FOG", "RADIANCE", "IRRADIANCE"]
 const DEFAULT_FRAGMENT_OUTPUT := "
 	fragmentMaterial DEFAULT_FRAGMENT = fragmentMaterial(
-	    vec3(0.75),               
-	    vec3(0.5, 0.5, 1.0),      
-	    1.0,                      
-	    1.0,                      
-	    0.5,                      
-	    0.0,                      
-	    vec3(0.0),                
-	    vec3(0.5, 0.5, 1.0),    
-	    vec3(0.5, 0.5, 1.0),      
-	    1.0,                      
-	    0.5,                      
-	    0.0,                      
-	    0.0                
+		vec3(0.75),			   
+		vec3(0.5, 0.5, 1.0),	  
+		1.0,					  
+		1.0,					  
+		0.5,					  
+		0.0,					  
+		vec3(0.0),				
+		vec3(0.5, 0.5, 1.0),	
+		vec3(0.5, 0.5, 1.0),	  
+		1.0,					  
+		0.5,					  
+		0.0,					  
+		0.0				
 	);
 	"
 
 const DEFAULT_VERTEX_OUTPUT := "
 	vertexMaterial DEFAULT_VERTEX = vertexMaterial(
-	    VERTEX,
+		VERTEX,
 		0.5
 	);
 	"
@@ -99,106 +99,106 @@ const FRAGMENT_OUTPUTS := "
 	"
 
 const FRAGMENT_LAYER_OUT_FIELDS := {
-    "LAYER_OUT_ALBEDO":     "layer_mat_albedo",
-    "LAYER_OUT_NORMAL_MAP": "layer_mat_normal_map",
-    "LAYER_OUT_MESH_NORMAL_MAP": "layer_mat_mesh_normal_map",
-    "LAYER_OUT_BENT_NORMAL": "layer_mat_bent_normal",
-    "LAYER_OUT_ROUGHNESS":  "layer_mat_roughness",
-    "LAYER_OUT_AO":         "layer_mat_ao",
-    "LAYER_OUT_HEIGHT":     "layer_mat_height",
-    "LAYER_OUT_METALLIC":   "layer_mat_metallic",
-    "LAYER_OUT_EMISSION":   "layer_mat_emission",
-    "LAYER_OUT_MESH_AO":    "layer_mat_mesh_ao",
-    "LAYER_OUT_MESH_HEIGHT": "layer_mat_mesh_height",
-    "LAYER_OUT_MESH_CURVATURE": "layer_mat_mesh_curvature",
-    "LAYER_OUT_MESH_THICKNESS": "layer_mat_mesh_thickness",
+	"LAYER_OUT_ALBEDO":	 "layer_mat_albedo",
+	"LAYER_OUT_NORMAL_MAP": "layer_mat_normal_map",
+	"LAYER_OUT_MESH_NORMAL_MAP": "layer_mat_mesh_normal_map",
+	"LAYER_OUT_BENT_NORMAL": "layer_mat_bent_normal",
+	"LAYER_OUT_ROUGHNESS":  "layer_mat_roughness",
+	"LAYER_OUT_AO":		 "layer_mat_ao",
+	"LAYER_OUT_HEIGHT":	 "layer_mat_height",
+	"LAYER_OUT_METALLIC":   "layer_mat_metallic",
+	"LAYER_OUT_EMISSION":   "layer_mat_emission",
+	"LAYER_OUT_MESH_AO":	"layer_mat_mesh_ao",
+	"LAYER_OUT_MESH_HEIGHT": "layer_mat_mesh_height",
+	"LAYER_OUT_MESH_CURVATURE": "layer_mat_mesh_curvature",
+	"LAYER_OUT_MESH_THICKNESS": "layer_mat_mesh_thickness",
 
 }
 const FRAGMENT_LAYER_BELOW_FIELDS := {
-    "LAYER_BELOW_ALBEDO":     "layer_mat_albedo",
-    "LAYER_BELOW_NORMAL_MAP": "layer_mat_normal_map",
+	"LAYER_BELOW_ALBEDO":	 "layer_mat_albedo",
+	"LAYER_BELOW_NORMAL_MAP": "layer_mat_normal_map",
 	"LAYER_BELOW_MESH_NORMAL_MAP": "layer_mat_mesh_normal_map",
-    "LAYER_BELOW_BENT_NORMALS": "layer_mat_bent_normal",
-    "LAYER_BELOW_ROUGHNESS":  "layer_mat_roughness",
-    "LAYER_BELOW_AO":         "layer_mat_ao",
-    "LAYER_BELOW_HEIGHT":     "layer_mat_height",
-    "LAYER_BELOW_METALLIC":   "layer_mat_metallic",
-    "LAYER_BELOW_EMISSION":   "layer_mat_emission",
-    "LAYER_BELOW_MESH_AO":    "layer_mat_mesh_ao",
-    "LAYER_BELOW_MESH_HEIGHT": "layer_mat_mesh_height",
-    "LAYER_BELOW_MESH_CURVATURE": "layer_mat_mesh_curvature",
-    "LAYER_BELOW_MESH_THICKNESS": "layer_mat_mesh_thickness",
+	"LAYER_BELOW_BENT_NORMALS": "layer_mat_bent_normal",
+	"LAYER_BELOW_ROUGHNESS":  "layer_mat_roughness",
+	"LAYER_BELOW_AO":		 "layer_mat_ao",
+	"LAYER_BELOW_HEIGHT":	 "layer_mat_height",
+	"LAYER_BELOW_METALLIC":   "layer_mat_metallic",
+	"LAYER_BELOW_EMISSION":   "layer_mat_emission",
+	"LAYER_BELOW_MESH_AO":	"layer_mat_mesh_ao",
+	"LAYER_BELOW_MESH_HEIGHT": "layer_mat_mesh_height",
+	"LAYER_BELOW_MESH_CURVATURE": "layer_mat_mesh_curvature",
+	"LAYER_BELOW_MESH_THICKNESS": "layer_mat_mesh_thickness",
 
 }
 const FRAGMENT_LAYER_CURRENT_FIELDS := {
-    "LAYER_CURRENT_ALBEDO":     "layer_mat_albedo",
-    "LAYER_CURRENT_NORMAL_MAP": "layer_mat_normal_map",
+	"LAYER_CURRENT_ALBEDO":	 "layer_mat_albedo",
+	"LAYER_CURRENT_NORMAL_MAP": "layer_mat_normal_map",
 	"LAYER_CURRENT_MESH_NORMAL_MAP": "layer_mat_mesh_normal_map",
-    "LAYER_CURRENT_BENT_NORMALS": "layer_mat_bent_normal",
-    "LAYER_CURRENT_ROUGHNESS":  "layer_mat_roughness",
-    "LAYER_CURRENT_AO":         "layer_mat_ao",
-    "LAYER_CURRENT_HEIGHT":     "layer_mat_height",
-    "LAYER_CURRENT_METALLIC":   "layer_mat_metallic",
-    "LAYER_CURRENT_EMISSION":   "layer_mat_emission",
-    "LAYER_CURRENT_MESH_AO":    "layer_mat_mesh_ao",
-    "LAYER_CURRENT_MESH_HEIGHT": "layer_mat_mesh_height",
-    "LAYER_CURRENT_MESH_CURVATURE": "layer_mat_mesh_curvature",
-    "LAYER_CURRENT_MESH_THICKNESS": "layer_mat_mesh_thickness",
+	"LAYER_CURRENT_BENT_NORMALS": "layer_mat_bent_normal",
+	"LAYER_CURRENT_ROUGHNESS":  "layer_mat_roughness",
+	"LAYER_CURRENT_AO":		 "layer_mat_ao",
+	"LAYER_CURRENT_HEIGHT":	 "layer_mat_height",
+	"LAYER_CURRENT_METALLIC":   "layer_mat_metallic",
+	"LAYER_CURRENT_EMISSION":   "layer_mat_emission",
+	"LAYER_CURRENT_MESH_AO":	"layer_mat_mesh_ao",
+	"LAYER_CURRENT_MESH_HEIGHT": "layer_mat_mesh_height",
+	"LAYER_CURRENT_MESH_CURVATURE": "layer_mat_mesh_curvature",
+	"LAYER_CURRENT_MESH_THICKNESS": "layer_mat_mesh_thickness",
 
 }
 const FRAGMENT_LAYER_RESULT_FIELDS := {
-    "RESULT_ALBEDO":     "layer_mat_albedo",
-    "RESULT_NORMAL_MAP": "layer_mat_normal_map",
+	"RESULT_ALBEDO":	 "layer_mat_albedo",
+	"RESULT_NORMAL_MAP": "layer_mat_normal_map",
 	"RESULT_MESH_NORMAL_MAP": "layer_mat_mesh_normal_map",
-    "RESULT_BENT_NORMALS": "layer_mat_bent_normal",
-    "RESULT_ROUGHNESS":  "layer_mat_roughness",
-    "RESULT_AO":         "layer_mat_ao",
-    "RESULT_HEIGHT":     "layer_mat_height",
-    "RESULT_METALLIC":   "layer_mat_metallic",
-    "RESULT_EMISSION":   "layer_mat_emission",
-    "RESULT_MESH_AO":    "layer_mat_mesh_ao",
-    "RESULT_MESH_HEIGHT": "layer_mat_mesh_height",
-    "RESULT_MESH_CURVATURE": "layer_mat_mesh_curvature",
-    "RESULT_MESH_THICKNESS": "layer_mat_mesh_thickness",
+	"RESULT_BENT_NORMALS": "layer_mat_bent_normal",
+	"RESULT_ROUGHNESS":  "layer_mat_roughness",
+	"RESULT_AO":		 "layer_mat_ao",
+	"RESULT_HEIGHT":	 "layer_mat_height",
+	"RESULT_METALLIC":   "layer_mat_metallic",
+	"RESULT_EMISSION":   "layer_mat_emission",
+	"RESULT_MESH_AO":	"layer_mat_mesh_ao",
+	"RESULT_MESH_HEIGHT": "layer_mat_mesh_height",
+	"RESULT_MESH_CURVATURE": "layer_mat_mesh_curvature",
+	"RESULT_MESH_THICKNESS": "layer_mat_mesh_thickness",
 
 }
 const VERTEX_OUTPUTS := "
 	VERTEX = finalVertex.layer_mat_vertex;
 	"
 const VERTEX_LAYER_OUT_FIELDS := {
-    "LAYER_OUT_VERTEX":     "layer_mat_vertex",
-    "LAYER_OUT_HEIGHT":     "layer_mat_height",
+	"LAYER_OUT_VERTEX":	 "layer_mat_vertex",
+	"LAYER_OUT_HEIGHT":	 "layer_mat_height",
 }
 const VERTEX_LAYER_BELOW_FIELDS := {
-    "LAYER_BELOW_VERTEX":     "layer_mat_vertex",
-    "LAYER_BELOW_HEIGHT":     "layer_mat_height",
+	"LAYER_BELOW_VERTEX":	 "layer_mat_vertex",
+	"LAYER_BELOW_HEIGHT":	 "layer_mat_height",
 }
 const VERTEX_LAYER_CURRENT_FIELDS := {
-    "LAYER_CURRENT_VERTEX":     "layer_mat_vertex",
-    "LAYER_CURRENT_HEIGHT":     "layer_mat_height",
+	"LAYER_CURRENT_VERTEX":	 "layer_mat_vertex",
+	"LAYER_CURRENT_HEIGHT":	 "layer_mat_height",
 }
 const VERTEX_LAYER_RESULT_FIELDS := {
-    "RESULT_VERTEX":     "layer_mat_vertex",
-    "RESULT_HEIGHT":     "layer_mat_height",
+	"RESULT_VERTEX":	 "layer_mat_vertex",
+	"RESULT_HEIGHT":	 "layer_mat_height",
 }
 const DEFAULT_LAYER_DATA_OUTPUT := "
 	layerData DEFAULT_LAYER_DATA = layerData(
-	    vec4(0.0),
-    	vec4(0.0),
-    	vec4(0.0),
-    	vec4(0.0),
-    	vec4(0.0),
-    	vec4(0.0),
-    	vec4(0.0),
-    	vec4(0.0),
-    	0.0,
-    	0.0,
-    	0.0,
-    	0.0,
-    	0.0,
-    	0.0,
-    	0.0,
-    	0.0
+		vec4(0.0),
+		vec4(0.0),
+		vec4(0.0),
+		vec4(0.0),
+		vec4(0.0),
+		vec4(0.0),
+		vec4(0.0),
+		vec4(0.0),
+		0.0,
+		0.0,
+		0.0,
+		0.0,
+		0.0,
+		0.0,
+		0.0,
+		0.0
 	);
 "
 const LAYER_DATA_OUT_FIELDS := {
@@ -1273,6 +1273,27 @@ func parse_helper_funcs(shader: String, is_mask: bool, index: int) -> Dictionary
 	return {"functions": result, "identifiers": identifiers}
 
 
+func parse_switch_statements(shader: String) -> String:
+	var sig := RegEx.new()
+	sig.compile("switch\\s*\\(([^)]*)\\)\\s*\\{") 
+
+	var matches := sig.search_all(shader)
+	matches.reverse()
+
+	var result := shader
+	for m in matches:
+		var i := m.get_end() - 1
+		var depth := 1
+		i += 1
+		while i < result.length() and depth > 0:
+			if result[i] == '{': depth += 1
+			elif result[i] == '}': depth -= 1
+			i += 1
+		result = result.substr(0, i) + ";" + result.substr(i)
+
+	return result
+
+
 func dedup(array: Array) -> Array:
 	var seen := {}
 	var result := []
@@ -1490,6 +1511,7 @@ func _generate_code(assets: Array) -> String:
 			var mask_fragment := get_fragment(mask_c)
 			var mask_parsed_fragment := parse_fragment(mask_fragment, slot)
 			mask_fragment_body = mask_parsed_fragment["fragment"]
+			mask_fragment_body = parse_switch_statements(mask_parsed_fragment["fragment"])
 			var mask_vertex := get_vertex(mask_c)
 			var mask_parsed_vertex := parse_vertex(mask_vertex, slot)
 			mask_vertex_body = mask_parsed_vertex["vertex"]
@@ -1540,6 +1562,8 @@ func _generate_code(assets: Array) -> String:
 		var surface_fragment := get_fragment(surface_c)
 		var surface_parsed_fragment := parse_fragment(surface_fragment, slot)
 		var surface_fragment_body: String = surface_parsed_fragment["fragment"]
+		surface_fragment_body = parse_switch_statements(surface_parsed_fragment["fragment"])
+
 		
 		var surface_vertex := get_vertex(surface_c)
 		var surface_parsed_vertex := parse_vertex(surface_vertex, slot)
@@ -1561,7 +1585,6 @@ func _generate_code(assets: Array) -> String:
 		all_varyings = dedup(all_varyings)
 		all_helper_funcs.append_array(surface_helper_funcs["functions"])
 		all_helper_funcs.append("\n")
-
 		
 		all_includes.append_array(surface_includes)
 		all_includes = dedup(all_includes)
