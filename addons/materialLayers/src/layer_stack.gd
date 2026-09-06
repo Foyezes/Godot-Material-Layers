@@ -1623,7 +1623,7 @@ func _generate_code(assets: Array) -> String:
 		all_fragment_funcs.append(surface_fragment_body)
 		all_fragment_funcs.append("\tfinalLayerData = layer_%d_data;" % slot)
 		all_fragment_funcs.append("\n")
-		if mask_active:
+		if mask_active and mask_type == MaterialLayer.MaskType.MATERIAL:
 			all_fragment_funcs.append("\tfinalFragment = fragment_%d_out;" % slot)
 		all_fragment_funcs.append("\n")
 		all_fragment_funcs.append(mask_fragment_body)
